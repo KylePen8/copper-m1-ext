@@ -117,3 +117,30 @@ detail and privacy fact is read from the catalog, never typed into the page.
 **Risks and open questions:** The privacy text is the catalog's wording rendered
 as-is, so it is only as accurate as the catalog. Color names on the product cards
 are text chips because the catalog has no color values.
+
+## Extension: Talk to Copper demo
+
+**Summary:** A "Talk to Copper" section on the landing page, right after
+Products, where a shopper taps one of three preset prompts and sees how Copper
+answers. It is **scripted**: every reply is a fixed string in the component.
+There are no AI or API calls, keys, routes or new libraries, and it is labeled
+"Demo · simulated responses".
+
+| Piece | Where | What it does |
+|---|---|---|
+| Section | `app/page.tsx` | `<section id="talk" data-testid="talk-to-copper">` between `products` and `showcase` |
+| Component | `components/copper/talk-to-copper.tsx` | Client component with phases `idle` → `thinking` → `awaiting-choice` → `done`, built from `Card`, `Button`, `Badge` and `Spinner` |
+| Tests | `components/copper/talk-to-copper.test.tsx` | Each script, the Yes/No choice, focus, reduced motion, Start over and timer cleanup |
+| AI calls | none | |
+
+**Data flow:** button click → local state → reply shown after 700 ms (at once
+under `prefers-reduced-motion`). Nothing leaves the browser.
+
+**Decisions and trade-offs:** Replies are hard-coded instead of calling a
+model, so the demo costs nothing, works without keys and can't say something
+off-brand. The pending reply timeout is cleared on unmount and on Start over.
+Prompt buttons stay disabled while Copper is thinking or waiting for Yes/No.
+
+**Risks and open questions:** A shopper could mistake the demo for a live
+assistant, so the label says the responses are simulated. The replies avoid
+prices and never claim Copper "never records."

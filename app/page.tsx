@@ -2,6 +2,7 @@ import Image from "next/image";
 import { CheckIcon, XIcon } from "lucide-react";
 import { SiteFooter } from "@/components/copper/site-footer";
 import { SiteHeader } from "@/components/copper/site-header";
+import { TalkToCopper } from "@/components/copper/talk-to-copper";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -119,6 +120,16 @@ export default function Home() {
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
+          </div>
+        </section>
+
+        <section
+          id="talk"
+          data-testid="talk-to-copper"
+          className={cn("bg-secondary/50", sectionSpacing)}
+        >
+          <div className={container}>
+            <TalkToCopper />
           </div>
         </section>
 
